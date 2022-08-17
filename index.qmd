@@ -1,0 +1,355 @@
+---
+title: "Functions and Iterations"
+subtitle: "Learning to do repeated tasks in R"
+author: "Meenakshi Kushwaha"
+date: "18th August, 2022"
+format: 
+  revealjs:
+    theme: [my_theme.scss]
+    incremental: true
+    slide-number: true
+   
+execute:
+  echo: true
+  cache: true
+---
+
+# Functions
+
+```{r setup}
+#| echo: false
+library(gapminder)
+library(tidyverse)
+library(here)
+```
+
+## When should you write function?
+
+::: goal
+You should consider writing a function whenever you've copied and pasted a block of code more than twice (i.e. you now have three copies of the same code)."\
+- *R for Data Science*
+:::
+
+## Example of a repeated task
+
+In the `gapminder` dataset calculate the range of population, gdp, and life expectancy
+
+```{r}
+round(max(gapminder$lifeExp) - min(gapminder$lifeExp),1)
+```
+
+```{r}
+round(max(gapminder$pop) - min(gapminder$pop),1)
+```
+
+```{r}
+round(max(gapminder$gdpPercap) - min(gapminder$gdpPercap),1)
+```
+
+## Example of a repeated task
+
+```{r}
+max_minus_min <- function(x){
+  round((max(x) - min(x)), 1)
+  }
+```
+
+Test-run your function
+
+```{r}
+max_minus_min(gapminder$lifeExp)
+```
+
+## What did we need? {.smaller}
+
+-   **name** of the function
+
+`max_minus_min`
+
+-   what do you want the function to do? OR **body**
+
+`round((max(x) - min(x)), 1)`
+
+-   what does the function need to work? OR **ingredient**
+
+`x`
+
+::: fragment
+```{r}
+#| eval: false
+max_minus_min <- function(x){
+  round((max(x) - min(x)), 1)
+  }
+```
+:::
+
+::: fragment
+::: goal
+A function returns the last statement it evaluates
+:::
+:::
+
+# Quiz {.nonincremental}
+
+What will the following code return?
+
+```{r}
+#| eval: false
+addTen <- function(x){
+  x+10
+}
+
+addTen(20)
+```
+
+-   10
+-   20
+-   30
+-   Will give an error
+
+## How to re-use your function
+
+-   Step 1: Save your function as `.R` script
+-   Step 2: Source the script using
+
+. . .
+
+```{r}
+#| eval: false
+source("your-function-name.R")
+```
+
+. . .
+
+This will work if your `.R` script is in your working directory, else specify the path
+
+```{r}
+#| eval: false
+source("path/tofile/your-function-name.R")
+```
+
+# Demo
+
+## Good Practices
+
+-   descriptive names, use verbs for function names
+-   use snake case in names
+-   be consistent with naming
+-   use common prefix for a family of related functions
+
+::: fragment
+#### Other tips
+
+-   Use comments for #why. Code should explan the #how
+-   Shorcut (extract function)
+:::
+
+# Iterations
+
+## `map()` Function
+
+::: r-fit-text
+FOR EACH \_\_\_\_ DO \_\_\_\_\_
+:::
+
+::: fragment
+![](img/map.png)
+:::
+
+::: fragment
+`map(.x, .f)`
+
+::: {.fragment .highlight-red}
+.x is a vector/list/dataframe\
+.f is the action that you want to do with each element of .x
+:::
+:::
+
+## Types of `map()` functions
+
+-   map(.x, .f) is the main mapping function and returns a list
+
+-   map_df(.x, .f) returns a data frame
+
+-   map_dbl(.x, .f) returns a numeric (double) vector
+
+-   map_chr(.x, .f) returns a character vector
+
+-   map_lgl(.x, .f) returns a logical vector
+
+## Input to `map()` functions
+
+-   a vector (of any type)
+    -   in which case the iteration is done over the entries of the vector
+-   a list
+    -   in which case the iteration is performed over the elements of the list
+-   a data frame
+    -   in which case the iteration is performed over the columns of the data frame
+
+## Example {.smaller}
+
+Apply `class()` function to each column of gampminder data
+
+```{r}
+#| output-location: fragment
+gapminder %>% 
+  map(class)
+```
+
+. . .
+
+```{r}
+#| output-location: fragment
+gapminder %>% 
+  map_chr(class)
+```
+
+## Example
+
+What is the number of distinct values in each column
+
+```{r}
+#| output-location: fragment
+gapminder %>% 
+  map_int(n_distinct)
+```
+
+## Example
+What is the median of all numeric columns?
+
+```{r}
+#| output-location: fragment
+gapminder %>% 
+  dplyr::select_if(is.numeric) %>% 
+  map_dbl(median)
+```
+
+
+## When things get complicated, use `~`
+Sometimes you may want to define your own function and apply to each column
+
+:::{.fragment}
+```{r}
+#| eval: false
+function(x) {
+  x + 10
+}
+```
+:::
+
+:::{.fragment}
+can be replaced with 
+```{r}
+#| eval: false
+~{. + 10}
+```
+:::
+
+. . .
+
+For example, 
+```{r}
+#| output-location: fragment
+map_dbl(c(1, 2, 3), ~{. + 10})
+```
+
+## Example 
+
+
+```{r}
+map_int(gapminder, ~length(unique(.)))
+```
+
+## Example
+
+```{r}
+#| output-location: fragment
+gapminder %>% 
+  split(.$continent) %>% 
+  map(function(df) lm(lifeExp ~ pop, data = gapminder))
+```
+
+## Example
+
+```{r}
+#| output-location: fragment
+gapminder %>% 
+  split(.$continent) %>% 
+  map(~lm(lifeExp ~ pop, data = .))
+```
+
+## Strategy
+
+-   Solve for one element
+-   Turn it into a recipe
+-   Use `map()` to solve for all elements
+
+# Demo
+
+# Reading multiple files with `purrr` package
+
+## Reading multiple files
+
+::: goal
+We have data from different countries in seperate `.csv` files that we need to combine in a single dataset for analysis
+:::
+
+. . .
+
+#### Step 1
+
+Find all `.csv` files in a folder
+
+```{r}
+#| output-location: fragment
+dir(here("data"), pattern = "*.csv") #list all .csv files in data folder
+```
+
+## Reading multiple files
+
+#### Step 2
+
+Make a list of all the files
+
+```{r}
+#| output-location: fragment
+my_files <- dir(here("data"), # specify file path
+                pattern = "*.csv",  # look for .csv files
+                full.names = TRUE)  # preserve file path
+my_files
+```
+
+## Reading multiple files
+
+#### Step 3
+
+Read and combine all files using `map_dfr()`
+
+```{r}
+#| output-location: fragment
+my_files %>% 
+  map_dfr(read_csv) 
+```
+
+## Using `map_dfr()`
+
+```{r}
+#| fig-width: 10 
+#| echo: false
+knitr::include_graphics("img/map_dfr.png")
+```
+
+::: {.fragment .highlight-blue}
+The additional `_dfr()` tells purrr to return a data frame (df) by row-binding each element together (r)
+:::
+
+::: footer
+Source: Blog by [Garrick Aden-Buie](https://www.gerkelab.com/blog/2018/09/import-directory-csv-purrr-readr/)
+:::
+
+## Sources
+
+::: nonincremental
+-   [Tutorial](https://github.com/cwickham/purrr-tutorial) by Charlotte Wickham
+-   [Tutorial](https://www.rebeccabarter.com/blog/2019-08-19_purrr/) by Rebecca Barter
+:::
