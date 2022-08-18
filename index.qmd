@@ -296,7 +296,7 @@ Fitting a linear model with different groups of the data
 #| output-location: fragment
 gapminder %>% 
   split(.$continent) %>% 
-  map(function(df) lm(lifeExp ~ pop, data = gapminder))
+  map(function(df) lm(lifeExp ~ pop, data = df))
 ```
 
 ## Using `~` with `map` functions

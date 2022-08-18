@@ -709,61 +709,61 @@ $gdpPercap
 <section id="using-with-map-functions-2" class="slide level2">
 <h2>Using <code>~</code> with <code>map</code> functions</h2>
 <p>Fitting a linear model with different groups of the data</p>
-<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-19_caf959c9b82812fa2266eceac1b7d5df">
+<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-19_d2fe45ab50c16d7728daeee73d33b9a5">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
 <span id="cb29-2"><a href="#cb29-2"></a>  <span class="fu">split</span>(.<span class="sc">$</span>continent) <span class="sc">%&gt;%</span> </span>
-<span id="cb29-3"><a href="#cb29-3"></a>  <span class="fu">map</span>(<span class="cf">function</span>(df) <span class="fu">lm</span>(lifeExp <span class="sc">~</span> pop, <span class="at">data =</span> gapminder))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-3"><a href="#cb29-3"></a>  <span class="fu">map</span>(<span class="cf">function</span>(df) <span class="fu">lm</span>(lifeExp <span class="sc">~</span> pop, <span class="at">data =</span> df))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell fragment" data-hash="index_cache/revealjs/unnamed-chunk-19_caf959c9b82812fa2266eceac1b7d5df">
+<div class="cell fragment" data-hash="index_cache/revealjs/unnamed-chunk-19_d2fe45ab50c16d7728daeee73d33b9a5">
 <div class="cell-output cell-output-stdout">
 <pre><code>$Africa
 
 Call:
-lm(formula = lifeExp ~ pop, data = gapminder)
+lm(formula = lifeExp ~ pop, data = df)
 
 Coefficients:
 (Intercept)          pop  
-  5.924e+01    7.904e-09  
+  4.816e+01    7.150e-08  
 
 
 $Americas
 
 Call:
-lm(formula = lifeExp ~ pop, data = gapminder)
+lm(formula = lifeExp ~ pop, data = df)
 
 Coefficients:
 (Intercept)          pop  
-  5.924e+01    7.904e-09  
+  6.353e+01    4.587e-08  
 
 
 $Asia
 
 Call:
-lm(formula = lifeExp ~ pop, data = gapminder)
+lm(formula = lifeExp ~ pop, data = df)
 
 Coefficients:
 (Intercept)          pop  
-  5.924e+01    7.904e-09  
+  5.992e+01    1.901e-09  
 
 
 $Europe
 
 Call:
-lm(formula = lifeExp ~ pop, data = gapminder)
+lm(formula = lifeExp ~ pop, data = df)
 
 Coefficients:
 (Intercept)          pop  
-  5.924e+01    7.904e-09  
+  7.162e+01    1.650e-08  
 
 
 $Oceania
 
 Call:
-lm(formula = lifeExp ~ pop, data = gapminder)
+lm(formula = lifeExp ~ pop, data = df)
 
 Coefficients:
 (Intercept)          pop  
-  5.924e+01    7.904e-09  </code></pre>
+  7.207e+01    2.545e-07  </code></pre>
 </div>
 </div>
 </section>
