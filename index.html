@@ -468,7 +468,7 @@
 </div>
 </section></section>
 <section>
-<section id="quiz" class="title-slide slide level1 nonincremental center">
+<section id="quiz" class="title-slide slide level1 center">
 <h1>Quiz</h1>
 <p>What will the following code return?</p>
 <div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-7_b59e3ab100087b644d4ba95f8e707ae9">
@@ -478,12 +478,14 @@
 <span id="cb11-4"><a href="#cb11-4"></a></span>
 <span id="cb11-5"><a href="#cb11-5"></a><span class="fu">addTen</span>(<span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div>
 <ul>
-<li class="fragment">10</li>
-<li class="fragment">20</li>
-<li class="fragment">30</li>
-<li class="fragment">Will give an error</li>
+<li>10</li>
+<li>20</li>
+<li>30</li>
+<li>Will give an error</li>
 </ul>
+</div>
 </section>
 <section id="how-to-re-use-your-function" class="slide level2">
 <h2>How to re-use your function</h2>
@@ -647,48 +649,72 @@ $gdpPercap
 <h2>When things get complicated, use <code>~</code></h2>
 <p>Sometimes you may want to define your own function and apply to each column</p>
 <div class="fragment">
-<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-14_6e28e035ba1b0b9d6f1ca1b08c7729e1">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="cf">function</span>(x) {</span>
-<span id="cb22-2"><a href="#cb22-2"></a>  x <span class="sc">+</span> <span class="dv">10</span></span>
-<span id="cb22-3"><a href="#cb22-3"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p><code>function(x) {</code> <code>x + 10</code> <code>}</code></p>
 </div>
 <div class="fragment">
-<p>can be replaced with</p>
-<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-15_f0515e048daa414ece1406c626a76765">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="sc">~</span>{. <span class="sc">+</span> <span class="dv">10</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>can be replaced with <code>~{. + 10}</code></p>
 </div>
+</section>
+<section id="using-with-map-functions" class="slide level2">
+<h2>Using <code>~</code> with <code>map</code> functions</h2>
+<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-14_ad6f19ad3f49ed175324dcdb91e013af">
+<div class="sourceCode cell-code" id="cb22" data-code-line-numbers="2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>my_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="fu">map_dbl</span>(my_vector, <span class="cf">function</span>(x){x<span class="sc">+</span><span class="dv">10</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="fragment">
-<p>For example,</p>
-<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-16_295f736b2f4d104b0a95a300700260da">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">map_dbl</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="sc">~</span>{. <span class="sc">+</span> <span class="dv">10</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>is same as</p>
+<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-15_5b218122500c1dd50d6660a080c8420f">
+<div class="sourceCode cell-code" id="cb23" data-code-line-numbers="2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>my_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb23-2"><a href="#cb23-2"></a><span class="fu">map_dbl</span>(my_vector, <span class="sc">~</span>(.<span class="sc">+</span><span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell fragment" data-hash="index_cache/revealjs/unnamed-chunk-16_295f736b2f4d104b0a95a300700260da">
+</div>
+</section>
+<section id="quiz-1" class="slide level2">
+<h2>Quiz</h2>
+<p>What is the output of the following code?</p>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Question</a></li><li><a href="#tabset-1-2">Solution</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-16_2ea9888ca6f4c2b8101816ec943485f8">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>my_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="fu">map_dbl</span>(my_vector, <span class="sc">~</span>(.<span class="sc">+</span><span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-2">
+<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-17_d80867222f354b2c96311fc4f5bc4440">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>my_vector <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="fu">map_dbl</span>(my_vector, <span class="sc">~</span>(.<span class="sc">+</span><span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 11 12 13</code></pre>
 </div>
 </div>
+<p><code>~(.+10)</code> adds 10 to each element of <code>my_vector</code></p>
+</div>
+</div>
 </div>
 </section>
-<section id="example-3" class="slide level2">
-<h2>Example</h2>
-<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-17_6f222ef428ac401be0a596e1fa133198">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="fu">map_int</span>(gapminder, <span class="sc">~</span><span class="fu">length</span>(<span class="fu">unique</span>(.)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="using-with-map-functions-1" class="slide level2">
+<h2>Using <code>~</code> with <code>map</code> functions</h2>
+<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-18_6c7e9fb9a4ff02345c86c6b23c0b963c">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="fu">map_int</span>(gapminder, <span class="sc">~</span><span class="fu">length</span>(<span class="fu">unique</span>(.)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell fragment" data-hash="index_cache/revealjs/unnamed-chunk-18_6c7e9fb9a4ff02345c86c6b23c0b963c">
 <div class="cell-output cell-output-stdout">
 <pre><code>  country continent      year   lifeExp       pop gdpPercap 
       142         5        12      1626      1704      1704 </code></pre>
 </div>
 </div>
 </section>
-<section id="example-4" class="slide level2">
-<h2>Example</h2>
-<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-18_b4be3d7ff30db1c2b183cf3e70a47e46">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
-<span id="cb28-2"><a href="#cb28-2"></a>  <span class="fu">split</span>(.<span class="sc">$</span>continent) <span class="sc">%&gt;%</span> </span>
-<span id="cb28-3"><a href="#cb28-3"></a>  <span class="fu">map</span>(<span class="cf">function</span>(df) <span class="fu">lm</span>(lifeExp <span class="sc">~</span> pop, <span class="at">data =</span> gapminder))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="using-with-map-functions-2" class="slide level2">
+<h2>Using <code>~</code> with <code>map</code> functions</h2>
+<p>Fitting a linear model with different groups of the data</p>
+<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-19_caf959c9b82812fa2266eceac1b7d5df">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb29-2"><a href="#cb29-2"></a>  <span class="fu">split</span>(.<span class="sc">$</span>continent) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-3"><a href="#cb29-3"></a>  <span class="fu">map</span>(<span class="cf">function</span>(df) <span class="fu">lm</span>(lifeExp <span class="sc">~</span> pop, <span class="at">data =</span> gapminder))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell fragment" data-hash="index_cache/revealjs/unnamed-chunk-18_b4be3d7ff30db1c2b183cf3e70a47e46">
+<div class="cell fragment" data-hash="index_cache/revealjs/unnamed-chunk-19_caf959c9b82812fa2266eceac1b7d5df">
 <div class="cell-output cell-output-stdout">
 <pre><code>$Africa
 
@@ -741,14 +767,15 @@ Coefficients:
 </div>
 </div>
 </section>
-<section id="example-5" class="slide level2">
-<h2>Example</h2>
-<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-19_9119194137cbc284c47d7849d78ebb88">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
-<span id="cb30-2"><a href="#cb30-2"></a>  <span class="fu">split</span>(.<span class="sc">$</span>continent) <span class="sc">%&gt;%</span> </span>
-<span id="cb30-3"><a href="#cb30-3"></a>  <span class="fu">map</span>(<span class="sc">~</span><span class="fu">lm</span>(lifeExp <span class="sc">~</span> pop, <span class="at">data =</span> .))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="using-with-map-functions-3" class="slide level2">
+<h2>Using <code>~</code> with <code>map</code> functions</h2>
+<p>Fitting a linear model with different groups of the data</p>
+<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-20_afd0e314e2cbac82f6898ef79eef08ba">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>gapminder <span class="sc">%&gt;%</span> </span>
+<span id="cb31-2"><a href="#cb31-2"></a>  <span class="fu">split</span>(.<span class="sc">$</span>continent) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-3"><a href="#cb31-3"></a>  <span class="fu">map</span>(<span class="sc">~</span><span class="fu">lm</span>(lifeExp <span class="sc">~</span> pop, <span class="at">data =</span> .))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell fragment" data-hash="index_cache/revealjs/unnamed-chunk-19_9119194137cbc284c47d7849d78ebb88">
+<div class="cell fragment" data-hash="index_cache/revealjs/unnamed-chunk-20_afd0e314e2cbac82f6898ef79eef08ba">
 <div class="cell-output cell-output-stdout">
 <pre><code>$Africa
 
@@ -827,10 +854,10 @@ Coefficients:
 <div class="fragment">
 <h4 id="step-1">Step 1</h4>
 <p>Find all <code>.csv</code> files in a folder</p>
-<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-20_530e1dfa11dc6f532ea8d376feee144a">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="fu">dir</span>(<span class="fu">here</span>(<span class="st">"data"</span>), <span class="at">pattern =</span> <span class="st">"*.csv"</span>) <span class="co">#list all .csv files in data folder</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-21_a8c80f5d7fe8937af41f46bcf91c54af">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="fu">dir</span>(<span class="fu">here</span>(<span class="st">"data"</span>), <span class="at">pattern =</span> <span class="st">"*.csv"</span>) <span class="co">#list all .csv files in data folder</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell fragment" data-hash="index_cache/revealjs/unnamed-chunk-20_530e1dfa11dc6f532ea8d376feee144a">
+<div class="cell fragment" data-hash="index_cache/revealjs/unnamed-chunk-21_a8c80f5d7fe8937af41f46bcf91c54af">
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "china_gm.csv" "india_gm.csv" "japan_gm.csv" "nepal_gm.csv"</code></pre>
 </div>
@@ -841,13 +868,13 @@ Coefficients:
 <h2>Reading multiple files</h2>
 <h4 id="step-2">Step 2</h4>
 <p>Make a list of all the files</p>
-<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-21_a3e7a3a64b25d44857b68c096cee2018">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>my_files <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="fu">here</span>(<span class="st">"data"</span>), <span class="co"># specify file path</span></span>
-<span id="cb34-2"><a href="#cb34-2"></a>                <span class="at">pattern =</span> <span class="st">"*.csv"</span>,  <span class="co"># look for .csv files</span></span>
-<span id="cb34-3"><a href="#cb34-3"></a>                <span class="at">full.names =</span> <span class="cn">TRUE</span>)  <span class="co"># preserve file path</span></span>
-<span id="cb34-4"><a href="#cb34-4"></a>my_files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-22_04b4ddda8fa279a04b21db955b6caeb5">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>my_files <span class="ot">&lt;-</span> <span class="fu">dir</span>(<span class="fu">here</span>(<span class="st">"data"</span>), <span class="co"># specify file path</span></span>
+<span id="cb35-2"><a href="#cb35-2"></a>                <span class="at">pattern =</span> <span class="st">"*.csv"</span>,  <span class="co"># look for .csv files</span></span>
+<span id="cb35-3"><a href="#cb35-3"></a>                <span class="at">full.names =</span> <span class="cn">TRUE</span>)  <span class="co"># preserve file path</span></span>
+<span id="cb35-4"><a href="#cb35-4"></a>my_files</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell fragment" data-hash="index_cache/revealjs/unnamed-chunk-21_a3e7a3a64b25d44857b68c096cee2018">
+<div class="cell fragment" data-hash="index_cache/revealjs/unnamed-chunk-22_04b4ddda8fa279a04b21db955b6caeb5">
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "/Users/meenakshikushwaha/Dropbox/R projects/github/cstep-iterations/data/china_gm.csv"
 [2] "/Users/meenakshikushwaha/Dropbox/R projects/github/cstep-iterations/data/india_gm.csv"
@@ -860,11 +887,11 @@ Coefficients:
 <h2>Reading multiple files</h2>
 <h4 id="step-3">Step 3</h4>
 <p>Read and combine all files using <code>map_dfr()</code></p>
-<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-22_f062eefc4fde44b904f1ece80ab89819">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>my_files <span class="sc">%&gt;%</span> </span>
-<span id="cb36-2"><a href="#cb36-2"></a>  <span class="fu">map_dfr</span>(read_csv) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="index_cache/revealjs/unnamed-chunk-23_8d3b95864384dd474d4410391265b3a6">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>my_files <span class="sc">%&gt;%</span> </span>
+<span id="cb37-2"><a href="#cb37-2"></a>  <span class="fu">map_dfr</span>(read_csv) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell fragment" data-hash="index_cache/revealjs/unnamed-chunk-22_f062eefc4fde44b904f1ece80ab89819">
+<div class="cell fragment" data-hash="index_cache/revealjs/unnamed-chunk-23_8d3b95864384dd474d4410391265b3a6">
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 16 × 6
    country continent  year lifeExp       pop gdpPercap
@@ -902,6 +929,7 @@ Coefficients:
 <h2>Sources</h2>
 <div>
 <ul>
+<li>R for Data Science - <a href="https://r4ds.had.co.nz/functions.html">Functions</a> and <a href="https://r4ds.had.co.nz/iteration.html">Iteration</a> chapters</li>
 <li><a href="https://github.com/cwickham/purrr-tutorial">Tutorial</a> by Charlotte Wickham</li>
 <li><a href="https://www.rebeccabarter.com/blog/2019-08-19_purrr/">Tutorial</a> by Rebecca Barter</li>
 </ul>

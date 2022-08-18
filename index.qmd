@@ -89,7 +89,7 @@ A function returns the last statement it evaluates
 :::
 :::
 
-# Quiz {.nonincremental}
+# Quiz 
 
 What will the following code return?
 
@@ -102,10 +102,12 @@ addTen <- function(x){
 addTen(20)
 ```
 
+::: {.nonincremental}
 -   10
 -   20
 -   30
 -   Will give an error
+:::
 
 ## How to re-use your function
 
@@ -229,39 +231,67 @@ gapminder %>%
 Sometimes you may want to define your own function and apply to each column
 
 :::{.fragment}
-```{r}
-#| eval: false
-function(x) {
-  x + 10
-}
-```
+`function(x) {`
+  `x + 10`
+`}`
+
 :::
 
 :::{.fragment}
 can be replaced with 
+`~{. + 10}`
+:::
+
+## Using `~` with `map` functions
+
 ```{r}
 #| eval: false
-~{. + 10}
+#| code-line-numbers: "2"
+my_vector <- c(1, 2, 3)
+map_dbl(my_vector, function(x){x+10})
 ```
-:::
 
 . . .
 
-For example, 
+is same as 
 ```{r}
-#| output-location: fragment
-map_dbl(c(1, 2, 3), ~{. + 10})
+#| eval: false
+#| code-line-numbers: "2"
+my_vector <- c(1, 2, 3)
+map_dbl(my_vector, ~(.+10))
 ```
 
-## Example 
+## Quiz
 
+What is the output of the following code?
+
+::: {.panel-tabset}
+## Question
+```{r}
+#| eval: false
+my_vector <- c(1, 2, 3)
+map_dbl(my_vector, ~(.+10))
+```
+
+## Solution
+```{r}
+#| eval: true
+my_vector <- c(1, 2, 3)
+map_dbl(my_vector, ~(.+10))
+```
+`~(.+10)` adds 10 to each element of `my_vector`
+:::
+
+
+## Using `~` with `map` functions
 
 ```{r}
+#| output-location: fragment
 map_int(gapminder, ~length(unique(.)))
 ```
 
-## Example
-
+## Using `~` with `map` functions
+Fitting a linear model with different groups of the data 
 ```{r}
 #| output-location: fragment
 gapminder %>% 
@@ -269,8 +299,8 @@ gapminder %>%
   map(function(df) lm(lifeExp ~ pop, data = gapminder))
 ```
 
-## Example
-
+## Using `~` with `map` functions
+Fitting a linear model with different groups of the data 
 ```{r}
 #| output-location: fragment
 gapminder %>% 
@@ -350,6 +380,7 @@ Source: Blog by [Garrick Aden-Buie](https://www.gerkelab.com/blog/2018/09/import
 ## Sources
 
 ::: nonincremental
+- R for Data Science - [Functions](https://r4ds.had.co.nz/functions.html) and [Iteration](https://r4ds.had.co.nz/iteration.html) chapters
 -   [Tutorial](https://github.com/cwickham/purrr-tutorial) by Charlotte Wickham
 -   [Tutorial](https://www.rebeccabarter.com/blog/2019-08-19_purrr/) by Rebecca Barter
 :::
