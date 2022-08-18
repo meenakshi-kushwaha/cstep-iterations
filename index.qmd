@@ -46,7 +46,7 @@ round(max(gapminder$pop) - min(gapminder$pop),1)
 round(max(gapminder$gdpPercap) - min(gapminder$gdpPercap),1)
 ```
 
-## Example of a repeated task
+## Your first function
 
 ```{r}
 max_minus_min <- function(x){
